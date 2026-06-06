@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>我的商品展示站</title>
+  <title>优品商品展示站</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -27,12 +27,43 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap:12px;
     }
-    h1 { font-size: 2rem; color: #222; }
-    
+    h1 { font-size: 2.2rem; color: #222; }
+    .header-select{
+      display:flex;gap:12px;
+    }
+    select{
+      padding:6px 10px;border:1px solid #ddd;border-radius:6px;outline:none;
+    }
+    /* 分类筛选 */
+    .categories {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .cat-btn {
+      padding: 10px 24px;
+      border: 1px solid #ddd;
+      border-radius: 30px;
+      background: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1rem;
+    }
+    .cat-btn.active {
+      background: #e74c3c;
+      color: white;
+      border-color: #e74c3c;
+    }
     .product-grid {
       max-width: 1200px;
-      margin: 40px auto;
+      margin: 30px auto;
       padding: 0 20px;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -43,7 +74,8 @@
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      transition: transform 0.3s, box-shadow 0.3s;
+      transition: all 0.3s;
+      cursor: pointer;
     }
     .product-card:hover {
       transform: translateY(-8px);
@@ -58,64 +90,310 @@
       padding: 18px;
       text-align: center;
     }
-    .product-info h3 {
-      margin-bottom: 10px;
-      font-size: 1.2rem;
+    .product-info h3 { margin-bottom: 8px; font-size: 1.2rem; }
+    .price { font-size: 1.5rem; font-weight: bold; color: #e74c3c; margin: 8px 0; }
+    /* 弹窗 */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
     }
-    .price {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #e74c3c;
-      margin: 12px 0;
+    .modal-content {
+      background: white;
+      max-width: 900px;
+      width: 100%;
+      border-radius: 12px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-header {
+      padding: 20px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .close { font-size: 32px; cursor: pointer; color: #999; }
+    .modal-body { padding: 20px; }
+    .modal-images {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
+    .modal-images img {
+      max-height: 320px;
+      border-radius: 8px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .description {
+      margin: 20px 0;
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+    .contact {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
     }
     footer {
-      text-align: center;
-      padding: 30px;
-      color: #666;
-      background: #fff;
-      margin-top: 50px;
+      text-align:center; padding:40px 20px; color:#666; background:#fff; margin-top:60px;
     }
   </style>
 </head>
 <body>
   <header>
     <div class="nav">
-      <h1>商品展示站</h1>
-      <div>共 <span id="count">0</span> 件商品</div>
+      <h1 id="siteTitle">优品商品展示站</h1>
+      <div class="header-select">
+        <select id="langSelect">
+          <option value="zh-CN">简体中文</option>
+          <option value="en">English</option>
+          <option value="zh-TW">繁體中文</option>
+        </select>
+        <select id="currencySelect">
+          <option value="CNY">CNY ¥ 人民币</option>
+          <option value="USD">USD $ 美元</option>
+          <option value="EUR">EUR € 欧元</option>
+          <option value="GBP">GBP £ 英镑</option>
+        </select>
+      </div>
     </div>
   </header>
+
+  <!-- 分类筛选 -->
+  <div class="categories" id="categories"></div>
 
   <main>
     <div class="product-grid" id="products"></div>
   </main>
 
+  <!-- 商品详情弹窗 -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-name"></h2>
+        <span class="close" id="close">&times;</span>
+      </div>
+      <div class="modal-body">
+        <div class="modal-images" id="modal-images"></div>
+        <p class="price" id="modal-price"></p>
+        <div class="description" id="modal-desc"></div>
+        <div class="contact">
+          <h3 id="contactTitle">📞 联系方式</h3>
+          <p><strong id="wxText">微信：</strong> <span id="contact-wechat">你的微信号</span></p>
+          <p><strong id="telText">电话：</strong> <span id="contact-phone">138-XXXX-XXXX</span></p>
+          <p id="tipText"><strong>备注：</strong> 下单前请联系确认价格、尺码和库存</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer>
-    <p>本网站仅用于商品展示 | 价格仅供参考</p>
-    <p>© 2026 你的店铺名称</p>
+    <p id="footTxt1">本网站仅用于商品展示 | 价格仅供参考 • 实际以联系客服为准</p>
+    <p id="footTxt2">© 2026 你的店铺名称</p>
   </footer>
 
   <script>
+    // ==========1、多语言文案库 按需新增语种==========
+    const langData = {
+      "zh-CN":{
+        siteTitle:"优品商品展示站",
+        catAll:"全部",
+        catList:["手表","服装","鞋子","包包","化妆品","香水"],
+        contactTitle:"📞 联系方式",
+        wxText:"微信：",
+        telText:"电话：",
+        tipText:"备注：下单前请联系确认价格、尺码和库存",
+        foot1:"本网站仅用于商品展示 | 价格仅供参考 • 实际以联系客服为准",
+        foot2:"© 2026 你的店铺名称"
+      },
+      "en":{
+        siteTitle:"Premium Product Store",
+        catAll:"All",
+        catList:["Watch","Clothing","Shoes","Bags","Cosmetics","Perfume"],
+        contactTitle:"📞 Contact Info",
+        wxText:"WeChat:",
+        telText:"Phone:",
+        tipText:"Note: Confirm price & stock before order",
+        foot1:"For product display only | Final price via contact",
+        foot2:"© 2026 Your Shop Name"
+      },
+      "zh-TW":{
+        siteTitle:"優品商品展示站",
+        catAll:"全部",
+        catList:["手錶","服裝","鞋履","包包","化妝品","香水"],
+        contactTitle:"📞 聯絡方式",
+        wxText:"微信：",
+        telText:"電話：",
+        tipText:"備註：下單前請聯繫確認價格、尺碼與庫存",
+        foot1:"本網站僅商品展示｜價格僅供參考，實價諮詢客服",
+        foot2:"© 2026 你的店名"
+      }
+    };
+
+    // ==========2、汇率配置(基准：1CNY=自身，自行定期修改汇率)==========
+    const rate = {
+      CNY:1,
+      USD:0.138,
+      EUR:0.121,
+      GBP:0.105
+    };
+    const currencySymbol = {CNY:"¥",USD:"$",EUR:"€",GBP:"£"};
+
+    // ==========3、商品数据【中文原价，多国名称+详情，基准币种人民币】==========
     const products = [
-      { name: "商品名称1", price: "¥299", img: "images/product1.jpg" },
-      { name: "商品名称2", price: "¥499", img: "images/product2.jpg" },
-      // 在这里继续添加更多商品，例如：
-      // { name: "商品名称3", price: "¥699", img: "images/product3.jpg" },
+      {
+        name:{
+          "zh-CN":"轻奢石英腕表",
+          "en":"Luxury Quartz Watch",
+          "zh-TW":"輕奢石英手錶"
+        },
+        priceCny:899, //统一录入人民币原价，前端自动换算外币
+        category:"手表",
+        images:["images/watch1-1.jpg","images/watch1-2.jpg"],
+        desc:{
+          "zh-CN":"精钢表带防水腕表，日常通勤百搭，耐磨机芯使用寿命长",
+          "en":"Waterproof steel band watch, durable movement for daily use",
+          "zh-TW":"精鋼錶帶防水手錶，通勤百搭，機芯耐用"
+        }
+      },
+      {
+        name:{
+          "zh-CN":"夏季收腰连衣裙",
+          "en":"Summer Waist Dress",
+          "zh-TW":"夏季收腰洋裝"
+        },
+        priceCny:189,
+        category:"服装",
+        images:["images/dress1-1.jpg","images/dress1-2.jpg","images/dress1-3.jpg"],
+        desc:{
+          "zh-CN":"透气冰丝面料，显瘦收腰剪裁，日常出游穿搭优选",
+          "en":"Breathable fabric, slim fit design for daily travel",
+          "zh-TW":"透氣冰絲布料，顯瘦剪裁，出遊首選"
+        }
+      }
     ];
 
-    const container = document.getElementById('products');
-    products.forEach(p => {
-      container.innerHTML += `
-        <div class="product-card">
-          <img src="${p.img}" alt="${p.name}" loading="lazy">
-          <div class="product-info">
-            <h3>${p.name}</h3>
-            <p class="price">${p.price}</p>
-          </div>
-        </div>
-      `;
-    });
+    // ==========4、读取本地缓存用户上次选择==========
+    let nowLang = localStorage.getItem("siteLang")||"zh-CN";
+    let nowCur = localStorage.getItem("siteCur")||"CNY";
+    document.getElementById("langSelect").value = nowLang;
+    document.getElementById("currencySelect").value = nowCur;
 
-    document.getElementById('count').textContent = products.length;
+    // 换算价格函数
+    function getPrice(cny){
+      let num = (cny * rate[nowCur]).toFixed(2);
+      return currencySymbol[nowCur]+num;
+    }
+
+    // 页面全局刷新语言&币种
+    function refreshSite(){
+      let lang = langData[nowLang];
+      //顶部文字
+      document.getElementById("siteTitle").innerText = lang.siteTitle;
+      //联系栏
+      document.getElementById("contactTitle").innerText = lang.contactTitle;
+      document.getElementById("wxText").innerText = lang.wxText;
+      document.getElementById("telText").innerText = lang.telText;
+      document.getElementById("tipText").innerText = lang.tipText;
+      //页脚
+      document.getElementById("footTxt1").innerText = lang.foot1;
+      document.getElementById("footTxt2").innerText = lang.foot2;
+      //重渲染分类和商品
+      renderCate();
+      renderGoods();
+    }
+
+    //渲染分类
+    function renderCate(){
+      const lang = langData[nowLang];
+      const allCate = [lang.catAll,...lang.catList];
+      const box = document.getElementById("categories");
+      box.innerHTML = "";
+      allCate.forEach((item,idx)=>{
+        let btn = document.createElement("div");
+        btn.className = `cat-btn ${idx===0?"active":""}`;
+        btn.innerText = item;
+        btn.onclick = ()=>filterCate(item,btn);
+        box.appendChild(btn);
+      })
+    }
+
+    //筛选分类
+    function filterCate(name,dom){
+      document.querySelectorAll(".cat-btn").forEach(b=>b.classList.remove("active"));
+      dom.classList.add("active");
+      renderGoods(name);
+    }
+
+    //渲染商品
+    function renderGoods(filterName="全部"){
+      const box = document.getElementById("products");
+      box.innerHTML = "";
+      let list = filterName=="全部" ? products : products.filter(p=>p.category===filterName);
+      list.forEach((item,idx)=>{
+        box.innerHTML +=`
+          <div class="product-card" data-idx="${products.indexOf(item)}">
+            <img src="${item.images[0]}">
+            <div class="product-info">
+              <h3>${item.name[nowLang]}</h3>
+              <p class="price">${getPrice(item.priceCny)}</p>
+            </div>
+          </div>
+        `
+      })
+    }
+
+    //打开弹窗详情
+    document.getElementById("products").addEventListener("click",e=>{
+      let card = e.target.closest(".product-card");
+      if(!card)return;
+      let idx = Number(card.dataset.idx);
+      let p = products[idx];
+      document.getElementById("modal-name").innerText = p.name[nowLang];
+      document.getElementById("modal-price").innerText = getPrice(p.priceCny);
+      document.getElementById("modal-desc").innerText = p.desc[nowLang];
+      let imgBox = document.getElementById("modal-images");
+      imgBox.innerHTML = "";
+      p.images.forEach(src=>{
+        let img = document.createElement("img");
+        img.src = src;
+        img.onclick = ()=>window.open(src,"_blank");
+        imgBox.appendChild(img);
+      })
+      document.getElementById("modal").style.display = "flex";
+    })
+
+    //关闭弹窗
+    document.getElementById("close").onclick = ()=>document.getElementById("modal").style.display="none";
+    document.getElementById("modal").onclick = e=>{
+      if(e.target.id=="modal")document.getElementById("modal").style.display="none";
+    }
+
+    //下拉切换语言
+    document.getElementById("langSelect").onchange = function(){
+      nowLang = this.value;
+      localStorage.setItem("siteLang",nowLang);
+      refreshSite();
+    }
+    //下拉切换币种
+    document.getElementById("currencySelect").onchange = function(){
+      nowCur = this.value;
+      localStorage.setItem("siteCur",nowCur);
+      refreshSite();
+    }
+
+    //页面初始化
+    refreshSite();
   </script>
 </body>
 </html>

@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>源头工厂外贸好物</title>
-<!--轮播组件CDN-->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,system-ui}
@@ -26,7 +25,6 @@ header{background:#1a1a1a;color:#fff;padding:16px 5%;display:flex;justify-conten
 .pro-btn button{flex:1;padding:9px;border:none;border-radius:6px;cursor:pointer}
 .btn-detail{background:#f0f0f0}
 .btn-wa{background:#25D366;color:#fff}
-/*弹窗样式*/
 .modal{position:fixed;top:0;left:0;width:100%;height:100%;background:#0008;display:none;z-index:999;align-items:center;justify-content:center;padding:20px}
 .modal-box{background:#fff;width:min(92%,900px);border-radius:12px;display:grid;grid-template-columns:1fr 1fr;gap:24px;max-height:90vh;overflow-y:auto}
 @media(max-width:768px){.modal-box{grid-template-columns:1fr}}
@@ -35,7 +33,6 @@ header{background:#1a1a1a;color:#fff;padding:16px 5%;display:flex;justify-conten
 .close{position:absolute;top:15px;right:20px;font-size:28px;cursor:pointer;color:#333}
 .swiper{width:100%;height:400px}
 .swiper-slide img{width:100%;height:100%;object-fit:cover}
-/*悬浮WA按钮*/
 .fixed-wa{position:fixed;right:22px;bottom:25px;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;z-index:99}
 </style>
 </head>
@@ -48,7 +45,6 @@ header{background:#1a1a1a;color:#fff;padding:16px 5%;display:flex;justify-conten
   <div class="category-box" id="catBox"></div>
   <div class="pro-wrap" id="proBox"></div>
 </div>
-<!--详情弹窗-->
 <div class="modal" id="modal">
   <div class="modal-box">
     <span class="close" onclick="closeModal()">×</span>
@@ -69,7 +65,6 @@ header{background:#1a1a1a;color:#fff;padding:16px 5%;display:flex;justify-conten
     </div>
   </div>
 </div>
-<!--悬浮WA-->
 <a class="fixed-wa" id="floatWa" target="_blank">WA</a>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
@@ -77,16 +72,14 @@ header{background:#1a1a1a;color:#fff;padding:16px 5%;display:flex;justify-conten
 <script>
 let allPro=[];
 let currPro=null;
-//替换成你的WhatsApp国际号码，去掉+
-const waPhone="86138XXXX1234";
-//加载产品json
+//========这里改你的WhatsApp号码！！去掉+号，示例：8613900001111========
+const waPhone="86替换成你的手机号";
 fetch("./products.json").then(res=>res.json()).then(data=>{
   allPro=data;
   renderCat();
   renderPro(allPro);
 })
 
-//渲染分类
 function renderCat(){
   const cats=[...new Set(allPro.map(item=>item.category))];
   let html=`<span class="cat-tag active" data-cat="all">${langData[nowLang].all}</span>`;
@@ -102,7 +95,6 @@ function renderCat(){
   })
 }
 
-//渲染产品列表
 function renderPro(list){
   let html="";
   list.forEach(p=>{
@@ -114,7 +106,7 @@ function renderPro(list){
         <div class="pro-name">${name}</div>
         <div class="pro-price">$${p.priceUSD} / ¥${p.priceCNY}</div>
         <div class="pro-btn">
-          <button class="btn-detail" onclick="openModal(${JSON.stringify(p).replace(/"/g,'&quot;')})">${langData[nowLang].detail}</button>
+          <button class="btn-detail" onclick='openModal(${JSON.stringify(p)})'>${langData[nowLang].detail}</button>
           <a href="https://wa.me/${waPhone}?text=${encodeURIComponent(p.waMsg)}" target="_blank"><button class="btn-wa">${langData[nowLang].inquiry}</button></a>
         </div>
       </div>
@@ -125,12 +117,10 @@ function renderPro(list){
   document.getElementById("floatWa").href=`https://wa.me/${waPhone}`;
 }
 
-//打开详情弹窗+轮播
 function openModal(pro){
   currPro=pro;
   const name=pro.name[nowLang]||pro.name["zh-CN"];
   const desc=pro.desc[nowLang]||pro.desc["zh-CN"];
-  //生成轮播图片
   let swiperHtml="";
   pro.images.forEach(img=>swiperHtml+=`<div class="swiper-slide"><img src="${img}"></div>`);
   document.getElementById("swiperWrap").innerHTML=swiperHtml;
@@ -140,12 +130,9 @@ function openModal(pro){
   document.getElementById("modal-tip").innerText=langData[nowLang].tip;
   document.getElementById("modal-wa").href=`https://wa.me/${waPhone}?text=${encodeURIComponent(pro.waMsg)}`;
   document.getElementById("modal").style.display="flex";
-  //初始化轮播
   new Swiper(".mySwiper",{loop:true,pagination:{el:".swiper-pagination"},navigation:{prevEl:".swiper-button-prev",nextEl:".swiper-button-next"}})
 }
 function closeModal(){document.getElementById("modal").style.display="none"}
-
-//切换语言
 function switchLang(){
   nowLang=nowLang=="zh-CN"?"en":"zh-CN";
   renderCat();renderPro(allPro);

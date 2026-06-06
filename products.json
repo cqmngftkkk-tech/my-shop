@@ -1,0 +1,22 @@
+[
+  {
+    "id":1,
+    "category":"包包",
+    "name":{"zh-CN":"复古老花腋下牛皮包"},
+    "desc":{"zh-CN":"头层牛皮肩带，耐磨老花面料，大容量通勤，原厂实拍，批量拿货价优"},
+    "priceUSD":58,
+    "priceCNY":399,
+    "images":[
+      "images/bag1-1.jpg",
+      "images/bag1-2.jpg",
+      "images/bag1-3.jpg",
+      "images/bag1-4.jpg",
+      "images/bag1-5.jpg",
+      "images/bag1-6.jpg",
+      "images/bag1-7.jpg",
+      "images/bag1-8.jpg",
+      "images/bag1-9.jpg"
+    ],
+    "waMsg":"Hi,I want to inquire the price of vintage underarm bag"
+  }
+]

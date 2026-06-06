@@ -1,520 +1,155 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Global Premium Products</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: "Microsoft YaHei", Arial, sans-serif;
-      background: #f8f9fa;
-      color: #333;
-      line-height: 1.6;
-    }
-    header {
-      background: #fff;
-      padding: 1rem 0;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .nav {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap:12px;
-    }
-    h1 { font-size: 2.2rem; color: #222; }
-    .header-select{
-      display:flex;gap:12px;flex-wrap:wrap;
-    }
-    select{
-      padding:6px 10px;border:1px solid #ddd;border-radius:6px;outline:none;min-width:130px;
-    }
-    /* 分类筛选 */
-    .categories {
-      max-width: 1200px;
-      margin: 20px auto;
-      padding: 0 20px;
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .cat-btn {
-      padding: 10px 24px;
-      border: 1px solid #ddd;
-      border-radius: 30px;
-      background: white;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-size: 1rem;
-    }
-    .cat-btn.active {
-      background: #e74c3c;
-      color: white;
-      border-color: #e74c3c;
-    }
-    .product-grid {
-      max-width: 1200px;
-      margin: 30px auto;
-      padding: 0 20px;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 24px;
-    }
-    .product-card {
-      background: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      transition: all 0.3s;
-      cursor: pointer;
-    }
-    .product-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-    }
-    .product-card img {
-      width: 100%;
-      height: 240px;
-      object-fit: cover;
-    }
-    .product-info {
-      padding: 18px;
-      text-align: center;
-    }
-    .product-info h3 { margin-bottom: 8px; font-size: 1.2rem; }
-    .price { font-size: 1.5rem; font-weight: bold; color: #e74c3c; margin: 8px 0; }
-    /* 弹窗 */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.9);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .modal-content {
-      background: white;
-      max-width: 900px;
-      width: 100%;
-      border-radius: 12px;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-    .modal-header {
-      padding: 20px;
-      border-bottom: 1px solid #eee;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .close { font-size: 32px; cursor: pointer; color: #999; }
-    .modal-body { padding: 20px; }
-    .modal-images {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-      overflow-x: auto;
-      padding-bottom: 10px;
-    }
-    .modal-images img {
-      max-height: 320px;
-      border-radius: 8px;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-    .description {
-      margin: 20px 0;
-      font-size: 1.05rem;
-      line-height: 1.8;
-    }
-    .contact {
-      background: #f9f9f9;
-      padding: 22px;
-      border-radius: 8px;
-      margin-top: 20px;
-      border:1px solid #eee;
-    }
-    .whatsapp-num{
-      font-size:18px;
-      font-weight:bold;
-      color:#25D366;
-    }
-    footer {
-      text-align:center; padding:40px 20px; color:#666; background:#fff; margin-top:60px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>源头工厂外贸好物</title>
+<!--轮播组件CDN-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,system-ui}
+body{background:#f7f7f7;color:#222}
+header{background:#1a1a1a;color:#fff;padding:16px 5%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:99}
+.site-title{font-size:22px;font-weight:600}
+.lang-btn{padding:6px 12px;border:1px solid #fff;background:transparent;color:#fff;border-radius:4px;cursor:pointer}
+.container{max-width:1400px;margin:0 auto;padding:40px 3%}
+.category-box{margin-bottom:30px}
+.cat-tag{display:inline-block;padding:8px 16px;background:#eee;border-radius:20px;margin:0 6px 8px;cursor:pointer}
+.cat-tag.active{background:#1a1a1a;color:#fff}
+.pro-wrap{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px}
+.pro-card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 12px #00000012}
+.pro-card img{width:100%;height:280px;object-fit:cover}
+.pro-info{padding:16px}
+.pro-name{font-size:16px;font-weight:500;margin-bottom:8px}
+.pro-price{color:#c81623;font-size:18px;margin-bottom:12px}
+.pro-btn{display:flex;gap:8px}
+.pro-btn button{flex:1;padding:9px;border:none;border-radius:6px;cursor:pointer}
+.btn-detail{background:#f0f0f0}
+.btn-wa{background:#25D366;color:#fff}
+/*弹窗样式*/
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:#0008;display:none;z-index:999;align-items:center;justify-content:center;padding:20px}
+.modal-box{background:#fff;width:min(92%,900px);border-radius:12px;display:grid;grid-template-columns:1fr 1fr;gap:24px;max-height:90vh;overflow-y:auto}
+@media(max-width:768px){.modal-box{grid-template-columns:1fr}}
+.modal-img{padding:20px}
+.modal-text{padding:20px 20px 30px}
+.close{position:absolute;top:15px;right:20px;font-size:28px;cursor:pointer;color:#333}
+.swiper{width:100%;height:400px}
+.swiper-slide img{width:100%;height:100%;object-fit:cover}
+/*悬浮WA按钮*/
+.fixed-wa{position:fixed;right:22px;bottom:25px;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;z-index:99}
+</style>
 </head>
 <body>
-  <header>
-    <div class="nav">
-      <h1 id="siteTitle">优品商品展示站</h1>
-      <div class="header-select">
-        <select id="langSelect">
-          <option value="zh-CN">简体中文</option>
-          <option value="zh-TW">繁體中文</option>
-          <option value="en">English</option>
-          <option value="ja">日本語</option>
-          <option value="ko">한국어</option>
-          <option value="es">Español</option>
-          <option value="fr">Français</option>
-          <option value="de">Deutsch</option>
-          <option value="pt">Português</option>
-          <option value="ru">Русский</option>
-          <option value="ar">العربية</option>
-          <option value="it">Italiano</option>
-        </select>
-        <select id="currencySelect">
-          <option value="CNY">CNY ¥ 人民币</option>
-          <option value="USD">USD $ 美元</option>
-          <option value="EUR">EUR € 欧元</option>
-          <option value="GBP">GBP £ 英镑</option>
-          <option value="JPY">JPY ¥ 日元</option>
-          <option value="KRW">KRW ₩ 韩元</option>
-          <option value="HKD">HKD HK$ 港币</option>
-          <option value="AUD">AUD AU$ 澳元</option>
-          <option value="CAD">CAD CA$ 加元</option>
-          <option value="SGD">SGD S$ 新币</option>
-          <option value="THB">THB ฿ 泰铢</option>
-          <option value="MYR">MYR RM 马币</option>
-          <option value="AED">AED د.إ 迪拉姆</option>
-        </select>
+<header>
+<div class="site-title" id="siteTitle"></div>
+<button class="lang-btn" onclick="switchLang()">EN/中文</button>
+</header>
+<div class="container">
+  <div class="category-box" id="catBox"></div>
+  <div class="pro-wrap" id="proBox"></div>
+</div>
+<!--详情弹窗-->
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <span class="close" onclick="closeModal()">×</span>
+    <div class="modal-img">
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper" id="swiperWrap"></div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
       </div>
     </div>
-  </header>
-
-  <!-- 分类筛选 -->
-  <div class="categories" id="categories"></div>
-
-  <main>
-    <div class="product-grid" id="products"></div>
-  </main>
-
-  <!-- 商品详情弹窗 -->
-  <div class="modal" id="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 id="modal-name"></h2>
-        <span class="close" id="close">&times;</span>
-      </div>
-      <div class="modal-body">
-        <div class="modal-images" id="modal-images"></div>
-        <p class="price" id="modal-price"></p>
-        <div class="description" id="modal-desc"></div>
-        <div class="contact">
-          <h3 id="contactTitle">📞 咨询联络</h3>
-          <p id="waTip"></p>
-          <p><strong id="waLabel">WhatsApp：</strong> <span class="whatsapp-num" id="waNumber">+86 你的WhatsApp号码</span></p>
-        </div>
-      </div>
+    <div class="modal-text">
+      <h3 id="modal-name" style="margin-bottom:12px;font-size:20px"></h3>
+      <div id="modal-price" style="color:#c81623;font-size:20px;margin-bottom:16px"></div>
+      <p id="modal-desc" style="line-height:1.7;color:#555;margin-bottom:24px"></p>
+      <a id="modal-wa" target="_blank"><button style="width:100%;padding:12px;background:#25D366;border:none;color:#fff;border-radius:6px;font-size:16px">WhatsApp立即询价</button></a>
+      <p id="modal-tip" style="margin-top:14px;font-size:13px;color:#777"></p>
     </div>
   </div>
+</div>
+<!--悬浮WA-->
+<a class="fixed-wa" id="floatWa" target="_blank">WA</a>
 
-  <footer>
-    <p id="footTxt1">本网站仅用于商品展示 | 价格仅供参考 • 实际以WhatsApp沟通报价为准</p>
-    <p id="footTxt2">© 2026 Global Shop</p>
-  </footer>
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<script src="./lang.js"></script>
+<script>
+let allPro=[];
+let currPro=null;
+//替换成你的WhatsApp国际号码，去掉+
+const waPhone="86138XXXX1234";
+//加载产品json
+fetch("./products.json").then(res=>res.json()).then(data=>{
+  allPro=data;
+  renderCat();
+  renderPro(allPro);
+})
 
-  <script>
-    // 【12国语言文案库，自动适配分类、页面、WhatsApp引流文案】
-    const langData = {
-      "zh-CN":{
-        siteTitle:"全球优品商品展示站",
-        catAll:"全部",
-        catList:["手表","服装","鞋子","包包","化妆品","香水"],
-        contactTitle:"📞 咨询联络",
-        waLabel:"WhatsApp：",
-        waTip:"看中任意款式欢迎直接WhatsApp私信，实时报价、确认库存、尺码，秒回复！",
-        foot1:"本网站仅用于商品展示 | 价格仅供参考 • 实际以WhatsApp沟通报价为准",
-        foot2:"© 2026 Global Shop"
-      },
-      "zh-TW":{
-        siteTitle:"全球優品商品展示站",
-        catAll:"全部",
-        catList:["手錶","服裝","鞋履","包包","化妝品","香水"],
-        contactTitle:"📞 諮詢聯絡",
-        waLabel:"WhatsApp：",
-        waTip:"喜愛任一商品歡迎透過WhatsApp諮詢，即時報價、查詢庫存尺碼，快速回覆！",
-        foot1:"網站僅商品展示｜標價僅參考，最終報價請WhatsApp洽談",
-        foot2:"© 2026 Global Shop"
-      },
-      "en":{
-        siteTitle:"Global Premium Product Store",
-        catAll:"All Items",
-        catList:["Watches","Clothing","Shoes","Bags","Cosmetics","Perfume"],
-        contactTitle:"📞 Contact Us",
-        waLabel:"WhatsApp:",
-        waTip:"Love this item? Message us on WhatsApp for instant quote, stock & size info, fast reply!",
-        foot1:"Site for display only | Final price confirmed via WhatsApp",
-        foot2:"© 2026 Global Shop"
-      },
-      "ja":{
-        siteTitle:"グローバル高品商品ショップ",
-        catAll:"全商品",
-        catList:["時計","衣料","靴","バッグ","コスメ","香水"],
-        contactTitle:"📞 お問い合わせ",
-        waLabel:"WhatsApp：",
-        waTip:"気になる商品はWhatsAppより価格・在庫・サイズ確認可能、迅速返信いたします",
-        foot1:"商品展示サイトです｜正式価格はWhatsAppにてご連絡ください",
-        foot2:"© 2026 Global Shop"
-      },
-      "ko":{
-        siteTitle:"글로벌 프리미엄 상품몰",
-        catAll:"전체상품",
-        catList:["시계","의류","신발","가방","화장품","향수"],
-        contactTitle:"📞 문의하기",
-        waLabel:"WhatsApp：",
-        waTip:"마음에 드는 상품은 왓츠앱으로 견적, 재고, 사이즈 문의 가능하며 빠른 답변드립니다",
-        foot1:"상품 전시용 사이트｜최종가는 왓츠앱으로 상담바랍니다",
-        foot2:"© 2026 Global Shop"
-      },
-      "es":{
-        siteTitle:"Tienda Global de Artículos Premium",
-        catAll:"Todos",
-        catList:["Relojes","Ropa","Zapatos","Bolsos","Cosméticos","Perfume"],
-        contactTitle:"📞 Contáctenos",
-        waLabel:"WhatsApp:",
-        waTip:"¿Te gusta el producto? Escríbenos por WhatsApp para precio, stock y tallas, respuesta rápida",
-        foot1:"Solo exhibición | Precio final por WhatsApp",
-        foot2:"© 2026 Global Shop"
-      },
-      "fr":{
-        siteTitle:"Boutique Produits Premium Mondial",
-        catAll:"Tous",
-        catList:["Montres","Vêtements","Chaussures","Sacs","Cosmétiques","Parfum"],
-        contactTitle:"📞 Nous contacter",
-        waLabel:"WhatsApp:",
-        waTip:"Cet article vous plaît ? Contactez-nous sur WhatsApp pour prix, stock et tailles, réponse rapide",
-        foot1:"Site d'exposition uniquement | Tarif définitif via WhatsApp",
-        foot2:"© 2026 Global Shop"
-      },
-      "de":{
-        siteTitle:"Global Premium Produkt Shop",
-        catAll:"Alle",
-        catList:["Uhren","Kleidung","Schuhe","Taschen","Kosmetik","Parfüm"],
-        contactTitle:"📞 Kontakt",
-        waLabel:"WhatsApp:",
-        waTip:"Gefällt dir das Produkt? Schreib uns per WhatsApp für Preis,Lager & Größe, schnelle Antwort",
-        foot1:"Nur Produktanzeige | Endpreis per WhatsApp klären",
-        foot2:"© 2026 Global Shop"
-      },
-      "pt":{
-        siteTitle:"Loja Global Produtos Premium",
-        catAll:"Todos",
-        catList:["Relógios","Roupas","Sapatos","Bolsas","Cosméticos","Perfume"],
-        contactTitle:"📞 Fale Conosco",
-        waLabel:"WhatsApp:",
-        waTip:"Gostou do produto? Nos envie mensagem no WhatsApp para preço,estoque e tamanhos",
-        foot1:"Apenas exposição | Preço final via WhatsApp",
-        foot2:"© 2026 Global Shop"
-      },
-      "ru":{
-        siteTitle:"Глобальный магазин премиум товаров",
-        catAll:"Все",
-        catList:["Часы","Одежда","Обувь","Сумки","Косметика","Духи"],
-        contactTitle:"📞 Связаться",
-        waLabel:"WhatsApp:",
-        waTip:"Понравился товар? Пишите в WhatsApp для цены, наличия и размеров, быстрый ответ",
-        foot1:"Только демонстрация | Итоговая цена в WhatsApp",
-        foot2:"© 2026 Global Shop"
-      },
-      "ar":{
-        siteTitle:"متجر عالمي للمنتجات الفاخرة",
-        catAll:"الكل",
-        catList:["الساعات","الملابس","الأحذية","الحقائب","مستحضرات التجميل","العطور"],
-        contactTitle:"📞 تواصل معنا",
-        waLabel:"واتساب:",
-        waTip:"إذا أعجبتك المنتج تواصل عبر الواتساب للحصول على السعر والمخازن والمقاسات",
-        foot1:"للعرض فقط | السعر النهائي عبر الواتساب",
-        foot2:"© 2026 Global Shop"
-      },
-      "it":{
-        siteTitle:"Negozio Globale Prodotti Premium",
-        catAll:"Tutti",
-        catList:["Orologi","Abbigliamento","Scarpe","Borse","Cosmetici","Profumo"],
-        contactTitle:"📞 Contattaci",
-        waLabel:"WhatsApp:",
-        waTip:"Ti piace questo articolo? Scrivici su WhatsApp per prezzo, disponibilità e taglie",
-        foot1:"Solo esposizione | Prezzo definitivo su WhatsApp",
-        foot2:"© 2026 Global Shop"
-      }
-    };
-
-    //13种币种实时换算汇率（基准：1CNY），后续自行修改数值更新汇率
-    const rate = {
-      CNY:1,USD:0.138,EUR:0.121,GBP:0.105,JPY:20.55,KRW:190.2,HKD:1.08,AUD:0.21,
-      CAD:0.19,SGD:0.185,THB:4.95,MYR:0.65,AED:0.508
-    };
-    const currencySymbol = {
-      CNY:"¥",USD:"$",EUR:"€",GBP:"£",JPY:"¥",KRW:"₩",HKD:"HK$",AUD:"AU$",
-      CAD:"CA$",SGD:"S$",THB:"฿",MYR:"RM",AED:"د.إ"
-    };
-
-    //商品数据：只填人民币原价，品名、描述分12种语言，分类固定【手表/服装/鞋子/包包/化妆品/香水】
-    const products = [
-      {
-        name:{
-          "zh-CN":"轻奢商务石英腕表","zh-TW":"輕奢商務石英手錶","en":"Luxury Business Quartz Watch",
-          "ja":"高級ビジネス腕時計","ko":"고급 비즈니스 시계","es":"Reloj de cuarzo lujo negocio",
-          "fr":"Montre quartz affaire luxe","de":"Luxus Business Quarzuhr","pt":"Relógio quartzo luxo",
-          "ru":"Лакшери кварцевые часы","ar":"ساعة كوارتز فاخرة","it":"Orologio quarzo lusso"
-        },
-        priceCny:899,category:"手表",images:["images/watch1-1.jpg","images/watch1-2.jpg"],
-        desc:{
-          "zh-CN":"精钢防水表带，商务百搭，耐磨机芯，日常通勤、商务场合均可佩戴",
-          "zh-TW":"精鋼防水錶帶，商務百搭，耐磨機芯，通勤與正式場合用",
-          "en":"Waterproof steel strap, durable movement for business & daily wear",
-          "ja":"スチール防水ベルト、耐久性の良いムーブメント、ビジネス向け",
-          "ko":"방수 스틸 밴드, 내구성 좋은 무브먼트, 출근 및 비즈니스 착용",
-          "es":"Correa acero impermeable, resistente para uso diario y negocios",
-          "fr":"Bracelet acier étanche, mécanisme solide pour travail et quotidien",
-          "de":"Wasserdichtes Stahlband, robustes Uhrwerk für Alltag & Business",
-          "pt":"Pulseira aço impermeável, resistente para uso diário e trabalho",
-          "ru":"Водонепроницаемый стальной ремень, прочный механизм",
-          "ar":"حزام فولاذ مقاوم للماء، حركة متانة للاستخدام اليومي",
-          "it":"Cinturino acciaio impermeabile, movimento robusto per uso quotidiano"
-        }
-      },
-      {
-        name:{
-          "zh-CN":"冰丝收腰连衣裙","zh-TW":"冰絲收腰洋裝","en":"Summer Slim Fit Ice Silk Dress",
-          "ja":"アイスシルクワンピース","ko":"아이스실크 슬림 원피스","es":"Vestido seda hielo entallado",
-          "fr":"Robe soie glacée taille ajustée","de":"Eis-Seide figurbetontes Kleid","pt":"Vestido seda gel cintura fina",
-          "ru":"Платье из ледяного шелка приталенное","ar":"فستان حرير جلي خصر ضيق","it":"Abito seta ghiaccio vita stretta"
-        },
-        priceCny:189,category:"服装",images:["images/dress1-1.jpg","images/dress1-2.jpg","images/dress1-3.jpg"],
-        desc:{
-          "zh-CN":"冰丝透气面料，显瘦收腰剪裁，夏日出游日常穿搭优选",
-          "zh-TW":"冰絲透氣布料，顯瘦剪裁，夏日外出穿搭首選",
-          "en":"Breathable ice silk fabric, slim waist cut, perfect for summer outing",
-          "ja":"通気性良いアイスシルク素材、スリムデザイン夏に最適",
-          "ko":"통기성 좋은 아이스실크 소재, 슬림 디자인 여름 외출용",
-          "es":"Tela seda transpirable, corte delgado ideal para verano",
-          "fr":"Tissu respirant, coupe fine parfait pour l'été",
-          "de":"Atmungsaktiver Stoff, schmaler Schnitt für Sommerausflüge",
-          "pt":"Tecido respirável, corte fino ideal para verão",
-          "ru":"Дышащий материал, приталенный крой для летнего отдыха",
-          "ar":"قماش منفذ للهواء، تصميم نحيف مناسب للصيف",
-          "it":"Tessuto traspirante, taglio slim ideale estate"
-        }
-      }
-    ];
-
-    //读取本地缓存用户语言&币种
-    let nowLang = localStorage.getItem("siteLang")||"zh-CN";
-    let nowCur = localStorage.getItem("siteCur")||"CNY";
-    document.getElementById("langSelect").value = nowLang;
-    document.getElementById("currencySelect").value = nowCur;
-
-    //价格换算函数
-    function getPrice(cny){
-      let num = (cny * rate[nowCur]).toFixed(2);
-      return currencySymbol[nowCur]+num;
+//渲染分类
+function renderCat(){
+  const cats=[...new Set(allPro.map(item=>item.category))];
+  let html=`<span class="cat-tag active" data-cat="all">${langData[nowLang].all}</span>`;
+  cats.forEach(c=>html+=`<span class="cat-tag" data-cat="${c}">${c}</span>`);
+  document.getElementById("catBox").innerHTML=html;
+  document.querySelectorAll(".cat-tag").forEach(t=>{
+    t.onclick=()=>{
+      document.querySelectorAll(".cat-tag").forEach(x=>x.classList.remove("active"));
+      t.classList.add("active");
+      const c=t.dataset.cat;
+      c==="all"?renderPro(allPro):renderPro(allPro.filter(p=>p.category===c))
     }
+  })
+}
 
-    //全局刷新页面文字、价格
-    function refreshSite(){
-      const lang = langData[nowLang];
-      document.getElementById("siteTitle").innerText = lang.siteTitle;
-      document.getElementById("contactTitle").innerText = lang.contactTitle;
-      document.getElementById("waLabel").innerText = lang.waLabel;
-      document.getElementById("waTip").innerText = lang.waTip;
-      document.getElementById("footTxt1").innerText = lang.foot1;
-      document.getElementById("footTxt2").innerText = lang.foot2;
-      renderCate();
-      renderGoods();
-    }
+//渲染产品列表
+function renderPro(list){
+  let html="";
+  list.forEach(p=>{
+    const name=p.name[nowLang]||p.name["zh-CN"];
+    html+=`
+    <div class="pro-card">
+      <img src="${p.images[0]}" alt="${name}">
+      <div class="pro-info">
+        <div class="pro-name">${name}</div>
+        <div class="pro-price">$${p.priceUSD} / ¥${p.priceCNY}</div>
+        <div class="pro-btn">
+          <button class="btn-detail" onclick="openModal(${JSON.stringify(p).replace(/"/g,'&quot;')})">${langData[nowLang].detail}</button>
+          <a href="https://wa.me/${waPhone}?text=${encodeURIComponent(p.waMsg)}" target="_blank"><button class="btn-wa">${langData[nowLang].inquiry}</button></a>
+        </div>
+      </div>
+    </div>`
+  })
+  document.getElementById("proBox").innerHTML=html;
+  document.getElementById("siteTitle").innerText=langData[nowLang].siteName;
+  document.getElementById("floatWa").href=`https://wa.me/${waPhone}`;
+}
 
-    //渲染分类按钮
-    function renderCate(){
-      const lang = langData[nowLang];
-      const allCate = [lang.catAll,...lang.catList];
-      const box = document.getElementById("categories");
-      box.innerHTML = "";
-      allCate.forEach((item,idx)=>{
-        let btn = document.createElement("div");
-        btn.className = `cat-btn ${idx===0?"active":""}`;
-        btn.innerText = item;
-        btn.onclick = ()=>filterCate(item,btn);
-        box.appendChild(btn);
-      })
-    }
+//打开详情弹窗+轮播
+function openModal(pro){
+  currPro=pro;
+  const name=pro.name[nowLang]||pro.name["zh-CN"];
+  const desc=pro.desc[nowLang]||pro.desc["zh-CN"];
+  //生成轮播图片
+  let swiperHtml="";
+  pro.images.forEach(img=>swiperHtml+=`<div class="swiper-slide"><img src="${img}"></div>`);
+  document.getElementById("swiperWrap").innerHTML=swiperHtml;
+  document.getElementById("modal-name").innerText=name;
+  document.getElementById("modal-price").innerText=`USD $${pro.priceUSD} | CNY ¥${pro.priceCNY}`;
+  document.getElementById("modal-desc").innerText=desc;
+  document.getElementById("modal-tip").innerText=langData[nowLang].tip;
+  document.getElementById("modal-wa").href=`https://wa.me/${waPhone}?text=${encodeURIComponent(pro.waMsg)}`;
+  document.getElementById("modal").style.display="flex";
+  //初始化轮播
+  new Swiper(".mySwiper",{loop:true,pagination:{el:".swiper-pagination"},navigation:{prevEl:".swiper-button-prev",nextEl:".swiper-button-next"}})
+}
+function closeModal(){document.getElementById("modal").style.display="none"}
 
-    //分类筛选商品
-    function filterCate(name,dom){
-      document.querySelectorAll(".cat-btn").forEach(b=>b.classList.remove("active"));
-      dom.classList.add("active");
-      renderGoods(name);
-    }
-
-    //渲染商品卡片
-    function renderGoods(filterName="全部"){
-      const box = document.getElementById("products");
-      box.innerHTML = "";
-      let list = filterName=="全部" ? products : products.filter(p=>p.category===filterName);
-      list.forEach((item,idx)=>{
-        box.innerHTML +=`
-          <div class="product-card" data-idx="${products.indexOf(item)}">
-            <img src="${item.images[0]}">
-            <div class="product-info">
-              <h3>${item.name[nowLang]}</h3>
-              <p class="price">${getPrice(item.priceCny)}</p>
-            </div>
-          </div>
-        `
-      })
-    }
-
-    //弹窗商品详情
-    document.getElementById("products").addEventListener("click",e=>{
-      let card = e.target.closest(".product-card");
-      if(!card)return;
-      let idx = Number(card.dataset.idx);
-      let p = products[idx];
-      document.getElementById("modal-name").innerText = p.name[nowLang];
-      document.getElementById("modal-price").innerText = getPrice(p.priceCny);
-      document.getElementById("modal-desc").innerText = p.desc[nowLang];
-      let imgBox = document.getElementById("modal-images");
-      imgBox.innerHTML = "";
-      p.images.forEach(src=>{
-        let img = document.createElement("img");
-        img.src = src;
-        img.onclick = ()=>window.open(src,"_blank");
-        imgBox.appendChild(img);
-      })
-      document.getElementById("modal").style.display = "flex";
-    })
-
-    //关闭弹窗
-    document.getElementById("close").onclick = ()=>document.getElementById("modal").style.display="none";
-    document.getElementById("modal").onclick = e=>{
-      if(e.target.id=="modal")document.getElementById("modal").style.display="none";
-    }
-
-    //切换语言保存缓存
-    document.getElementById("langSelect").onchange = function(){
-      nowLang = this.value;
-      localStorage.setItem("siteLang",nowLang);
-      refreshSite();
-    }
-    //切换币种保存缓存
-    document.getElementById("currencySelect").onchange = function(){
-      nowCur = this.value;
-      localStorage.setItem("siteCur",nowCur);
-      refreshSite();
-    }
-
-    refreshSite();
-  </script>
+//切换语言
+function switchLang(){
+  nowLang=nowLang=="zh-CN"?"en":"zh-CN";
+  renderCat();renderPro(allPro);
+}
+</script>
 </body>
 </html>

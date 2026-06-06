@@ -1,247 +1,213 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>精品手袋展示</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-    body { background: #f5f5f5; color: #222; }
-    header {
-      background: #111;
-      color: #fff;
-      padding: 16px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 99;
-    }
-    .lang-btn {
-      padding: 6px 12px;
-      background: #333;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 24px;
-      margin-top: 20px;
-    }
-    .product-card {
-      background: #fff;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .product-card:hover {
-      transform: translateY(-5px);
-    }
-    .product-card img {
-      width: 100%;
-      height: 280px;
-      object-fit: cover;
-    }
-    .product-info {
-      padding: 16px;
-    }
-    .product-name {
-      font-size: 18px;
-      margin-bottom: 8px;
-    }
-    .product-price {
-      color: #e53935;
-      font-size: 20px;
-      font-weight: bold;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Global Bag Wholesale</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,system-ui}
+body{background:#f7f7f7;color:#222}
+header{background:#1a1a1a;color:#fff;padding:16px 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;position:sticky;top:0;z-index:99}
+.head-select{display:flex;gap:10px}
+select{padding:5px 8px;border-radius:4px;border:none;outline:none}
+.container{max-width:1250px;margin:0 auto;padding:35px 3%}
+.category{margin-bottom:30px}
+.cat-item{display:inline-block;padding:7px 18px;border-radius:20px;background:#eee;margin:0 5px 8px;cursor:pointer}
+.cat-item.active{background:#1a1a1a;color:#fff}
+.pro-wrap{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:26px}
+.pro-card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 3px 12px #00000011;cursor:pointer}
+.pro-card img{width:100%;height:270px;object-fit:cover}
+.pro-info{padding:16px}
+.pro-name{font-size:17px;margin-bottom:6px}
+.pro-price{color:#e63946;font-size:19px;font-weight:bold;margin:8px 0}
+.wa-btn{width:100%;padding:10px;background:#25D366;color:#fff;border:none;border-radius:6px;margin-top:10px;cursor:pointer;font-size:15px}
 
-    /* 大图弹窗 */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.9);
-      z-index: 999;
-      align-items: center;
-      justify-content: center;
-    }
-    .modal-content {
-      position: relative;
-      max-width: 90%;
-      max-height: 90vh;
-    }
-    .modal-content img {
-      max-width: 100%;
-      max-height: 80vh;
-      border-radius: 8px;
-    }
-    .modal-close {
-      position: absolute;
-      top: -40px;
-      right: 0;
-      color: white;
-      font-size: 30px;
-      cursor: pointer;
-    }
-    .modal-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      color: white;
-      font-size: 30px;
-      cursor: pointer;
-      padding: 10px;
-    }
-    .modal-prev { left: -50px; }
-    .modal-next { right: -50px; }
-
-    .desc {
-      margin: 15px 0;
-      line-height: 1.7;
-      color: #555;
-    }
-    .whatsapp-btn {
-      display: block;
-      background: #25D366;
-      color: #fff;
-      text-align: center;
-      padding: 12px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 16px;
-      margin-top: 15px;
-    }
-  </style>
+/*大图弹窗*/
+.modal{position:fixed;inset:0;background:#000000e0;display:none;align-items:center;justify-content:center;z-index:999;padding:20px}
+.modal-box{background:#fff;max-width:920px;width:100%;border-radius:12px;max-height:92vh;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;gap:25px;padding:20px}
+@media(max-width:720px){.modal-box{grid-template-columns:1fr}}
+.img-box{overflow-x:auto;display:flex;gap:8px;padding-bottom:8px}
+.img-box img{height:360px;border-radius:6px;cursor:pointer}
+.close{position:absolute;top:15px;right:25px;color:#fff;font-size:32px;cursor:pointer}
+.desc-text{line-height:1.7;color:#444;margin:18px 0}
+.fixed-wa{position:fixed;right:20px;bottom:25px;width:54px;height:54px;border-radius:50%;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;text-decoration:none;z-index:98}
+</style>
 </head>
 <body>
-  <header>
-    <div>精品手袋展示</div>
-    <button class="lang-btn" id="langBtn">中 / EN</button>
-  </header>
+<header>
+<div class="site-name" id="siteTitle">全球奢侈品货源</div>
+<div class="head-select">
+<select id="langSel">
+<option value="zh-CN">简体中文</option>
+<option value="zh-TW">繁體中文</option>
+<option value="en">English</option>
+<option value="ja">日本語</option>
+<option value="ko">한국어</option>
+<option value="es">Español</option>
+<option value="fr">Français</option>
+<option value="de">Deutsch</option>
+<option value="pt">Português</option>
+<option value="ru">Русский</option>
+<option value="ar">العربية</option>
+<option value="it">Italiano</option>
+</select>
+<select id="curSel">
+<option value="CNY">CNY ¥人民币</option>
+<option value="USD">USD $美元</option>
+<option value="EUR">EUR €欧元</option>
+<option value="GBP">GBP £英镑</option>
+<option value="JPY">JPY ¥日元</option>
+<option value="KRW">KRW ₩韩元</option>
+<option value="HKD">HKD HK$港币</option>
+<option value="AUD">AUD AU$澳元</option>
+<option value="CAD">CAD CA$加元</option>
+<option value="SGD">SGD S$新币</option>
+<option value="THB">THB ฿泰铢</option>
+<option value="MYR">MYR RM马币</option>
+<option value="AED">AED د.إ迪拉姆</option>
+</select>
+</div>
+</header>
 
-  <div class="container">
-    <div class="product-grid" id="productGrid"></div>
-  </div>
+<div class="container">
+<div class="category" id="cateBox"></div>
+<div class="pro-wrap" id="goodsBox"></div>
+</div>
 
-  <!-- 大图弹窗 -->
-  <div class="modal" id="imageModal">
-    <div class="modal-content">
-      <span class="modal-close" id="modalClose">&times;</span>
-      <span class="modal-nav modal-prev" id="modalPrev">‹</span>
-      <img id="modalImage" src="" alt="">
-      <span class="modal-nav modal-next" id="modalNext">›</span>
-    </div>
-  </div>
+<div class="modal" id="bigModal">
+<span class="close" onclick="closeModal()">×</span>
+<div class="modal-box">
+<div class="img-box" id="imgWrap"></div>
+<div class="text-box">
+<h3 id="popName"></h3>
+<div class="pro-price" id="popPrice"></div>
+<div class="desc-text" id="popDesc"></div>
+<p id="waTip"></p>
+<a id="popWaLink" target="_blank"><button class="wa-btn" id="popWaBtn"></button></a>
+</div>
+</div>
+</div>
 
-  <script>
-    // ========== 这里是你的商品数据，以后上新只改这里！ ==========
-    const products = [
-      {
-        id: 1,
-        nameCN: "CarryAll EastWest 手袋",
-        nameEN: "CarryAll EastWest Handbag",
-        priceCNY: 2100,
-        priceUSD: 300,
-        descCN: "CarryAll EastWest手袋取材Monogram 帆布和皮革饰边，成就都市生活的贴身伴侣。充裕构型设有齐整内层，大号内袋再添功能元素。Monogram帆布拉链手拿包通过皮革带固定，尺寸：20× 10× 33.5 厘米（高×宽×长度）",
-        descEN: "Made of Monogram canvas with leather trim, roomy structure with neat inner layer. Size: 20 × 10 × 33.5 cm",
-        images: [
-          "images/watch1-1.jpg",
-          "images/watch1-2.jpg",
-          "images/watch1-3.jpg",
-          "images/watch1-4.jpg",
-          "images/watch1-5.jpg",
-          "images/watch1-6.jpg",
-          "images/watch1-7.jpg",
-          "images/watch1-8.jpg",
-          "images/watch1-9.jpg"
-        ],
-        waMsgCN: "我想咨询CarryAll EastWest手袋的价格",
-        waMsgEN: "Hi, I want to inquire about the price of CarryAll EastWest handbag"
-      }
-      // 你以后加新款，就在这里复制上面的 {} 再改一遍就行！
-    ];
+<a href="" class="fixed-wa" id="fixedWa" target="_blank">WA</a>
 
-    // ========== 这里改成你的WhatsApp号码 ==========
-    const waNumber = "8613410103614";
+<script>
+//=====1.多语言全站公用文案
+const langPool={
+"zh-CN":{site:"全球大牌箱包货源",all:"全部产品",waTip:"看中款式直接WhatsApp询价，查库存与拿货价",waBtn:"WhatsApp立即咨询"},
+"zh-TW":{site:"全球大牌箱包貨源",all:"全部商品",waTip:"喜愛商品可透過WhatsApp詢價、查詢庫存",waBtn:"WhatsApp立即諮詢"},
+"en":{site:"Global Luxury Bag Wholesale",all:"All Products",waTip:"Message WhatsApp for stock & wholesale price",waBtn:"Chat via WhatsApp"},
+"ja":{site:"高級バッグ卸売り",all:"全商品",waTip:"WhatsAppより在庫・価格お問合せ可能",waBtn:"WhatsAppで問い合わせ"},
+"ko":{site:"명품가방 도매",all:"전체상품",waTip:"왓츠앱으로 재고 및 가격 문의",waBtn:"왓츠앱 문의"},
+"es":{site:"Bolsos lujo al mayor",all:"Todos",waTip:"Consulta precio y stock por WhatsApp",waBtn:"Escribir WhatsApp"},
+"fr":{site:"Sac luxe gros",all:"Tous",waTip:"Prix et stock sur WhatsApp",waBtn:"Contacter WhatsApp"},
+"de":{site:"Luxus Taschen Großhandel",all:"Alle",waTip:"Preis & Lager per WhatsApp anfragen",waBtn:"WhatsApp Kontakt"},
+"pt":{site:"Bolsas luxo atacado",all:"Todos",waTip:"Preço e estoque no WhatsApp",waBtn:"Falar WhatsApp"},
+"ru":{site:"Оптом люкс сумки",all:"Все",waTip:"Цена и склад через WhatsApp",waBtn:"Написать WhatsApp"},
+"ar":{site:"حقيبات فاخرة بالجملة",all:"الكل",waTip:"اسعار ومخازن عبر الواتساب",waBtn:"تواصل واتساب"},
+"it":{site:"Borse lusso ingrosso",all:"Tutti",waTip:"Prezzo e stock su WhatsApp",waBtn:"Scrivi WhatsApp"}
+};
+//=====2.汇率基准CNY=1，自行修改更新
+const rateSet={CNY:1,USD:0.138,EUR:0.121,GBP:0.105,JPY:20.55,KRW:190.2,HKD:1.08,AUD:0.21,CAD:0.19,SGD:0.185,THB:4.95,MYR:0.65,AED:0.508};
+const symSet={CNY:"¥",USD:"$",EUR:"€",GBP:"£",JPY:"¥",KRW:"₩",HKD:"HK$",AUD:"AU$",CAD:"CA$",SGD:"S$",THB:"฿",MYR:"RM",AED:"د.إ"};
+//=====3.【产品区：只填中文名称+中文详情+人民币原价，新增款式只复制{}】
+const goodsList=[
+{
+cate:"包包",
+name:{"zh-CN":"CarryAll EastWest手袋"},
+desc:{"zh-CN":"CarryAll EastWest手袋取材Monogram 帆布和皮革饰边，成就都市生活的贴身伴侣。充裕构型设有齐整内层，大号内袋再添功能元素。Monogram帆布拉链手拿包通过皮革带固定尺寸：20× 10× 33.5 厘米（高×宽×长度）"},
+baseCny:429,
+imgArr:["images/watch1-1.jpg","images/watch1-2.jpg","images/watch1-3.jpg","images/watch1-4.jpg","images/watch1-5.jpg","images/watch1-6.jpg","images/watch1-7.jpg","images/watch1-8.jpg","images/watch1-9.jpg"],
+waText:{
+"zh-CN":"您好，我想咨询CarryAll EastWest手袋报价",
+"en":"Hi,please quote price for CarryAll EastWest handbag"
+}
+}
+];
+//=====4.替换成你的WhatsApp号码（无+）
+const waPhone="8613410103614";
 
-    let isCN = true;
-    let currentImages = [];
-    let currentIndex = 0;
+//读取缓存
+let nowLang=localStorage.getItem("setLang")||"zh-CN";
+let nowCur=localStorage.getItem("setCur")||"CNY";
+document.getElementById("langSel").value=nowLang;
+document.getElementById("curSel").value=nowCur;
 
-    // 渲染商品列表
-    function renderProducts() {
-      const grid = document.getElementById('productGrid');
-      grid.innerHTML = '';
-      products.forEach(p => {
-        grid.innerHTML += `
-          <div class="product-card" data-id="${p.id}">
-            <img src="${p.images[0]}" alt="${isCN ? p.nameCN : p.nameEN}">
-            <div class="product-info">
-              <div class="product-name">${isCN ? p.nameCN : p.nameEN}</div>
-              <div class="product-price">¥${p.priceCNY} | $${p.priceUSD}</div>
-              <div class="desc">${isCN ? p.descCN : p.descEN}</div>
-              <a href="https://wa.me/${waNumber}?text=${encodeURIComponent(isCN ? p.waMsgCN : p.waMsgEN)}" class="whatsapp-btn" target="_blank">
-                ${isCN ? "📩 WhatsApp咨询" : "📩 Chat on WhatsApp"}
-              </a>
-            </div>
-          </div>
-        `;
-      });
+//币种换算
+function getPrice(cny){
+let res=(cny*rateSet[nowCur]).toFixed(2);
+return symSet[nowCur]+res;
+}
 
-      // 绑定点击放大图事件
-      document.querySelectorAll('.product-card').forEach(card => {
-        card.addEventListener('click', function(e) {
-          if (e.target.classList.contains('whatsapp-btn')) return;
-          const id = parseInt(this.dataset.id);
-          const product = products.find(p => p.id === id);
-          openImageModal(product.images);
-        });
-      });
-    }
+//渲染页面
+function refreshPage(){
+let lang=langPool[nowLang];
+document.getElementById("siteTitle").innerText=lang.site;
+//分类
+let allCate=[lang.all,...new Set(goodsList.map(i=>i.cate))];
+let cateHtml="";
+allCate.forEach((v,k)=>cateHtml+=`<span class="cat-item ${k==0?'active':''}" data-c="${v}">${v}</span>`);
+document.getElementById("cateBox").innerHTML=cateHtml;
+//分类筛选绑定
+document.querySelectorAll(".cat-item").forEach(bt=>{
+bt.onclick=()=>{
+document.querySelectorAll(".cat-item").forEach(x=>x.classList.remove("active"));bt.classList.add("active");
+let c=bt.dataset.c;
+c==lang.all?renderGoods(goodsList):renderGoods(goodsList.filter(it=>it.cate==c));
+}
+})
+renderGoods(goodsList);
+document.getElementById("fixedWa").href=`https://wa.me/${waPhone}`;
+}
 
-    // 打开大图弹窗
-    function openImageModal(images) {
-      currentImages = images;
-      currentIndex = 0;
-      document.getElementById('modalImage').src = images[0];
-      document.getElementById('imageModal').style.display = 'flex';
-    }
+//渲染产品卡片
+function renderGoods(arr){
+let gHtml="";
+arr.forEach(item=>{
+let pName=item.name[nowLang]||item.name["zh-CN"];
+gHtml+=`<div class="pro-card" data-index="${goodsList.indexOf(item)}">
+<img src="${item.imgArr[0]}">
+<div class="pro-info">
+<div class="pro-name">${pName}</div>
+<div class="pro-price">${getPrice(item.baseCny)}</div>
+</div>
+</div>`
+})
+document.getElementById("goodsBox").innerHTML=gHtml;
+//卡片点击弹窗
+document.querySelectorAll(".pro-card").forEach(card=>{
+card.onclick=()=>{
+let idx=Number(card.dataset.index);openPop(goodsList[idx]);
+}
+})
+}
 
-    // 关闭弹窗
-    document.getElementById('modalClose').addEventListener('click', () => {
-      document.getElementById('imageModal').style.display = 'none';
-    });
+//打开详情弹窗
+function openPop(item){
+let l=langPool[nowLang];
+let pName=item.name[nowLang]||item.name["zh-CN"];
+let pDesc=item.desc[nowLang]||item.desc["zh-CN"];
+let userWaMsg=item.waText[nowLang]||item.waText["en"];
+//填充图片
+let imgHtml="";
+item.imgArr.forEach(im=>imgHtml+=`<img src="${im}">`);
+document.getElementById("imgWrap").innerHTML=imgHtml;
+document.getElementById("popName").innerText=pName;
+document.getElementById("popPrice").innerText=getPrice(item.baseCny);
+document.getElementById("popDesc").innerText=pDesc;
+document.getElementById("waTip").innerText=l.waTip;
+document.getElementById("popWaBtn").innerText=l.waBtn;
+document.getElementById("popWaLink").href=`https://wa.me/${waPhone}?text=${encodeURIComponent(userWaMsg)}`;
+document.getElementById("bigModal").style.display="flex";
+}
+function closeModal(){document.getElementById("bigModal").style.display="none"}
 
-    // 上一张/下一张
-    document.getElementById('modalPrev').addEventListener('click', () => {
-      currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
-      document.getElementById('modalImage').src = currentImages[currentIndex];
-    });
-    document.getElementById('modalNext').addEventListener('click', () => {
-      currentIndex = (currentIndex + 1) % currentImages.length;
-      document.getElementById('modalImage').src = currentImages[currentIndex];
-    });
+//切换语言保存
+document.getElementById("langSel").onchange=()=>{nowLang=this.value;localStorage.setItem("setLang",nowLang);refreshPage()}
+//切换币种保存
+document.getElementById("curSel").onchange=()=>{nowCur=this.value;localStorage.setItem("setCur",nowCur);refreshPage()}
 
-    // 切换语言
-    document.getElementById('langBtn').addEventListener('click', () => {
-      isCN = !isCN;
-      renderProducts();
-    });
-
-    // 初始化渲染
-    renderProducts();
-  </script>
+//初始化
+refreshPage();
+</script>
 </body>
 </html>
